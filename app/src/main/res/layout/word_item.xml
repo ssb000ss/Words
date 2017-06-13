@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:padding="8dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:text="1"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:id="@+id/tv_word_id"
+        android:layout_marginRight="2dp"
+        style="@style/Base.TextAppearance.AppCompat.Large"/>
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#dadada"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:text="Mother"
+        android:fontFamily="serif"
+        android:id="@+id/tv_word_word"
+        android:gravity="center"/>
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#dadada"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:text="Мама"
+        android:fontFamily="serif"
+        android:id="@+id/tv_word_translation"
+        android:gravity="center"/>
+
+</LinearLayout>
