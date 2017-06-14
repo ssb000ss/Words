@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dbWords.addWord(new Word("sixth","шестой"));
+                adapter.swapCursor(dbWords.getAll());
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
@@ -85,9 +86,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 long id = (long) viewHolder.itemView.getTag();
-
                 if (dbWords.deleteWord(id)) {
-
+                    Snackbar.make(null, "Удалено!!!" , Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
                 }
                 adapter.swapCursor(dbWords.getAll());
             }
