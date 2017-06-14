@@ -1,5 +1,6 @@
 package com.gmail.ssb000ss.words.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +18,22 @@ import java.util.List;
 
 public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder> {
 
+    Context  context;
     List<Word> list;
 
-    public WordAdapter(List<Word> list) {
+    public WordAdapter(List<Word> list,Context context) {
+        this.context=context;
         this.list = list;
     }
 
+
+
     @Override
     public WordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(context)
                 .inflate(R.layout.word_item, parent, false);
 
-        WordViewHolder vh = new WordViewHolder(v);
-        return vh;
+        return new WordViewHolder(v);
     }
 
     @Override

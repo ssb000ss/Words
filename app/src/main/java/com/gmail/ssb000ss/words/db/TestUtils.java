@@ -1,6 +1,7 @@
 package com.gmail.ssb000ss.words.db;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -12,51 +13,52 @@ import java.util.List;
  */
 
 public class TestUtils {
-
-    public static void insertTestWord(SQLiteDatabase sqLiteDatabase){
-        if(sqLiteDatabase==null){
+    //TODO удалить после того как протестирую функционал БД
+    public static void insertTestWord(SQLiteDatabase sqLiteDatabase) {
+        if (sqLiteDatabase == null) {
             return;
-        }
-        List<ContentValues> list=new ArrayList<>();
-        ContentValues cv=new ContentValues();
+        } else {
+            List<ContentValues> list = new ArrayList<>();
+            ContentValues cv = new ContentValues();
 
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD,"first");
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION,"первый");
-        list.add(cv);
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD, "first");
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION, "первый");
+            list.add(cv);
 
-        cv=new ContentValues();
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD,"second");
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION,"Второй");
-        list.add(cv);
+            cv = new ContentValues();
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD, "second");
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION, "Второй");
+            list.add(cv);
 
-        cv=new ContentValues();
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD,"third");
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION,"третий");
-        list.add(cv);
+            cv = new ContentValues();
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD, "third");
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION, "третий");
+            list.add(cv);
 
-        cv=new ContentValues();
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD,"fourth");
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION,"Четвертый");
-        list.add(cv);
+            cv = new ContentValues();
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD, "fourth");
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION, "Четвертый");
+            list.add(cv);
 
-        cv=new ContentValues();
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD,"fifth");
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION,"пятый");
-        list.add(cv);
+            cv = new ContentValues();
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD, "fifth");
+            cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION, "пятый");
+            list.add(cv);
 
-        try {
-            sqLiteDatabase.beginTransaction();
-            sqLiteDatabase.delete(DBWordsContract.DBWordEntry.TABLE_NAME, null, null);
+            try {
 
-            for (ContentValues c : list) {
+                sqLiteDatabase.beginTransaction();
+                sqLiteDatabase.delete(DBWordsContract.DBWordEntry.TABLE_NAME, null, null);
+                for (ContentValues c : list) {
 
-                sqLiteDatabase.insert(DBWordsContract.DBWordEntry.TABLE_NAME, null, c);
+                    sqLiteDatabase.insert(DBWordsContract.DBWordEntry.TABLE_NAME, null, c);
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                sqLiteDatabase.endTransaction();
             }
-            sqLiteDatabase.setTransactionSuccessful();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            sqLiteDatabase.endTransaction();
         }
     }
 

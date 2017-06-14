@@ -18,30 +18,17 @@ import com.gmail.ssb000ss.words.adapters.WordAdapter;
 import com.gmail.ssb000ss.words.db.DBWords;
 import com.gmail.ssb000ss.words.db.DBWordsHelper;
 import com.gmail.ssb000ss.words.db.TestUtils;
+import com.gmail.ssb000ss.words.objects.Word;
 
 public class MainActivity extends AppCompatActivity {
 
-
-//        // use this setting to improve performance if you know that changes
-//        // in content do not change the layout size of the RecyclerView
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        // use a linear layout manager
-//        mLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//
-//        // specify an adapter (see also next example)
-//        mAdapter = new MyAdapter(myDataset);
-//        mRecyclerView.setAdapter(mAdapter);
-
     RecyclerView recyclerView;
+    FloatingActionButton fab;
     WordAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
-
     private SQLiteDatabase mDb;
     private DBWordsHelper helper;
     private Context context;
-
     DBWords dbWords;
 
     @Override
@@ -49,55 +36,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        helper=new DBWordsHelper(this);
-
-        mDb=helper.getWritableDatabase();
-
         context=this;
+        helper=new DBWordsHelper(this);
+        mDb=helper.getWritableDatabase();
         dbWords=new DBWords(mDb,helper,context);
 
-        TestUtils.insertTestWord(mDb);
-        adapter=new WordAdapter(dbWords.getList());
+        //TestUtils.insertTestWord(mDb);
+        adapter=new WordAdapter(dbWords.getList(),this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView=(RecyclerView)findViewById(R.id.rv_word);
-        setSupportActionBar(toolbar);
-
 
         layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                dbWords.addWord(new Word("sixth","шестой"));
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

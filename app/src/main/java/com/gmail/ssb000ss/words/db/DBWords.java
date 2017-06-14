@@ -23,8 +23,6 @@ public class DBWords {
     private Context context;
     Cursor cursor;
 
-
-
     public DBWords(SQLiteDatabase mDb, DBWordsHelper helper, Context context) {
         this.mDb = mDb;
         this.helper = helper;
@@ -66,25 +64,23 @@ public class DBWords {
 
         return null;
     }
+
     public List<Word> getList(){
         List<Word> list=new ArrayList<>();
         cursor.moveToPosition(0);
-        while (true) {
-            if (!cursor.isLast()) {
-                long id = cursor.getColumnIndex(DBWordsContract.DBWordEntry._ID);
-                String word = cursor.getString(cursor.getColumnIndex(DBWordsContract.DBWordEntry.COLUMN_WORD));
-                String translate = cursor.getString(cursor.getColumnIndex(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION));
-                list.add(new Word(id, word, translate));
-                cursor.moveToNext();
-            }else break;
-            // TODO: 14.06.2017 Надо сделать правильный вывод id и отображение id
+        for (int i = 0; i <cursor.getCount() ; i++) {
+            addTestWord(list);
         }
         return list;
+        }
 
+    private void addTestWord(List<Word> list) {
+        long id = cursor.getLong(cursor.getColumnIndex(DBWordsContract.DBWordEntry._ID));
+        String word = cursor.getString(cursor.getColumnIndex(DBWordsContract.DBWordEntry.COLUMN_WORD));
+        String translate = cursor.getString(cursor.getColumnIndex(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION));
+        list.add(new Word(id, word, translate));
+        cursor.moveToNext();
     }
-
-
-
 
 
 }
