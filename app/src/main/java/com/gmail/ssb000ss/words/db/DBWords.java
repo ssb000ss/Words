@@ -19,13 +19,11 @@ import java.util.List;
 public class DBWords {
 
     private SQLiteDatabase mDb;
-    private DBWordsHelper helper;
     private Context context;
     Cursor cursor;
 
-    public DBWords(SQLiteDatabase mDb, DBWordsHelper helper, Context context) {
+    public DBWords(SQLiteDatabase mDb, Context context) {
         this.mDb = mDb;
-        this.helper = helper;
         this.context = context;
         this.cursor=getAll();
     }
@@ -39,6 +37,10 @@ public class DBWords {
 
     public boolean deleteWord(Word word){
         return mDb.delete(DBWordsContract.DBWordEntry.TABLE_NAME, DBWordsContract.DBWordEntry._ID+"="+word.getId(),null)>0;
+    }
+
+    public boolean deleteWord(long id){
+        return mDb.delete(DBWordsContract.DBWordEntry.TABLE_NAME, DBWordsContract.DBWordEntry._ID+"="+id,null)>0;
     }
 
     public Cursor getAll(){
