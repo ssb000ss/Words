@@ -77,7 +77,7 @@ public class DBWords {
                 list.add(new Word(id, word, translate));
                 cursor.moveToNext();
             }else break;
-            // TODO: 14.06.2017 Надо сделать правельный вывод id и отображение id 
+            // TODO: 14.06.2017 Надо сделать правильный вывод id и отображение id
         }
         return list;
 

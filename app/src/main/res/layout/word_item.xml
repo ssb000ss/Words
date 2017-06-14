@@ -3,34 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:padding="8dp">
+    android:layout_height="80dp"
+    android:background="#F5F5F5"
+    android:elevation="4dp"
+    android:paddingLeft="8dp"
+    >
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:text="1"
-        android:gravity="center"
-        android:textStyle="bold"
         android:id="@+id/tv_word_id"
-        android:layout_marginRight="2dp"
-        style="@style/Base.TextAppearance.AppCompat.Large"/>
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#dadada"/>
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:layout_width="70dp"
+        android:background="@drawable/ic_lens_black_24dp"
+        android:layout_height="70dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:text="1" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:text="Mother"
+        android:textColor="#000"
         android:fontFamily="serif"
         android:id="@+id/tv_word_word"
         android:gravity="center"/>
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#dadada"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
