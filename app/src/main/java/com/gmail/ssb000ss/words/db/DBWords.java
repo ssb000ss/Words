@@ -1,7 +1,6 @@
 package com.gmail.ssb000ss.words.db;
 
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -25,56 +24,62 @@ public class DBWords {
     public DBWords(SQLiteDatabase mDb, Context context) {
         this.mDb = mDb;
         this.context = context;
-        this.cursor=getAll();
+        this.cursor = getAll();
     }
 
-    public boolean addWord(Word word){
-        ContentValues cv=new ContentValues();
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD,word.getWord());
-        cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION,word.getTranslation());
-        return mDb.insert(DBWordsContract.DBWordEntry.TABLE_NAME,null,cv)>0;
+    public boolean addWord(Word word) {
+        ContentValues cv = new ContentValues();
+        cv.put(DBWordsContract.DBWordEntry.COLUMN_WORD, word.getWord());
+        cv.put(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION, word.getTranslation());
+        return mDb.insert(DBWordsContract.DBWordEntry.TABLE_NAME, null, cv) > 0;
     }
 
-    public boolean deleteWord(Word word){
-        return mDb.delete(DBWordsContract.DBWordEntry.TABLE_NAME, DBWordsContract.DBWordEntry._ID+"="+word.getId(),null)>0;
+    public boolean deleteWord(Word word) {
+        return mDb.delete(DBWordsContract.DBWordEntry.TABLE_NAME, DBWordsContract.DBWordEntry._ID + "=" + word.getId(), null) > 0;
     }
 
-    public boolean deleteWord(long id){
-        return mDb.delete(DBWordsContract.DBWordEntry.TABLE_NAME, DBWordsContract.DBWordEntry._ID+"="+id,null)>0;
+    public boolean deleteWord(long id) {
+        return mDb.delete(DBWordsContract.DBWordEntry.TABLE_NAME, DBWordsContract.DBWordEntry._ID + "=" + id, null) > 0;
     }
 
-    public Cursor getAll(){
+    public Cursor getAll() {
         return mDb.query(DBWordsContract.DBWordEntry.TABLE_NAME
-                ,null
-                ,null
-                ,null
-                ,null
-                ,null
+                , null
+                , null
+                , null
+                , null
+                , null
                 , DBWordsContract.DBWordEntry._ID
-                );
+        );
     }
 
-    public Word getWordById(long byID){
+    public Word getWordById(long id) {
+        cursor = mDb.rawQuery("SELECT * FROM " + DBWordsContract.DBWordEntry.TABLE_NAME +
+                " WHERE " + DBWordsContract.DBWordEntry._ID + "=" + id, null);
+        cursor.moveToFirst();
+        String word = cursor.getString(cursor.getColumnIndex(DBWordsContract.DBWordEntry.COLUMN_WORD));
+        String translation = cursor.getString(cursor.getColumnIndex(DBWordsContract.DBWordEntry.COLUMN_TRANSLATION));
+        return new Word(word, translation);
+    }
+
+    public Word getWordByWord(String word) {
+
         return null;
     }
 
-    public Word getWordByWord(String word){
-        return null;
-    }
-
-    public Word getWordByTranslation(String translation){
+    public Word getWordByTranslation(String translation) {
 
         return null;
     }
 
-    public List<Word> getList(){
-        List<Word> list=new ArrayList<>();
+    public List<Word> getList() {
+        List<Word> list = new ArrayList<>();
         cursor.moveToPosition(0);
-        for (int i = 0; i <cursor.getCount() ; i++) {
+        for (int i = 0; i < cursor.getCount(); i++) {
             addTestWord(list);
         }
         return list;
-        }
+    }
 
     private void addTestWord(List<Word> list) {
         long id = cursor.getLong(cursor.getColumnIndex(DBWordsContract.DBWordEntry._ID));

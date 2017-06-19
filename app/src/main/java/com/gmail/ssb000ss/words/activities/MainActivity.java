@@ -1,5 +1,6 @@
 package com.gmail.ssb000ss.words.activities;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -18,7 +19,12 @@ import com.gmail.ssb000ss.words.db.DBWordsHelper;
 import com.gmail.ssb000ss.words.db.TestUtils;
 import com.gmail.ssb000ss.words.objects.Word;
 
+import static com.gmail.ssb000ss.words.activities.DialogActivity.DB_CODE_RESULT_ADD_TRANSLATE;
+import static com.gmail.ssb000ss.words.activities.DialogActivity.DB_CODE_RESULT_ADD_WORD;
+
 public class MainActivity extends AppCompatActivity {
+
+    private static final int DB_CODE_ADD_WORD =  154;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -37,6 +43,19 @@ public class MainActivity extends AppCompatActivity {
     Cursor cursor;
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(data==null||resultCode==RESULT_CANCELED)return;
+        else if(resultCode==RESULT_OK){
+            String word=data.getStringExtra(DB_CODE_RESULT_ADD_WORD);
+            String translate=data.getStringExtra(DB_CODE_RESULT_ADD_TRANSLATE);
+            dbWords.addWord(new Word(word,translate));
+            adapter.swapCursor(dbWords.getAll());
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -48,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
         dbWords=new DBWords(mDb,this);
 
+
         cursor=dbWords.getAll();
+
+        Word word=dbWords.getWordById(21);
+        System.out.println(word.getWord());
 
         //// TODO: 14.06.2017 надо проверить  есть ли хотя бы одна запись если нет то закинуть Тест данные 
        //TestUtils.insertTestWord(mDb);
@@ -68,7 +91,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbWords.addWord(new Word("sixth","шестой"));
+
+                Intent intent=new Intent(MainActivity.this,DialogActivity.class);
+                startActivityForResult(intent,DB_CODE_ADD_WORD);
+
                 adapter.swapCursor(dbWords.getAll());
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
@@ -87,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 long id = (long) viewHolder.itemView.getTag();
                 if (dbWords.deleteWord(id)) {
-                    Snackbar.make(null, "Удалено!!!" , Snackbar.LENGTH_SHORT)
-                            .setAction("Action", null).show();
                 }
                 adapter.swapCursor(dbWords.getAll());
             }
